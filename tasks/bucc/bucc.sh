@@ -26,7 +26,7 @@ data="."
 xdir=${data}/downloaded	# tar files as distrubuted by the BUCC evaluation
 ddir=${data}/${bucc}	# raw texts of BUCC
 edir=${data}/embed	# normalized texts and embeddings
-langs=("fr" "de" "ru" "zh")
+langs=("fr") # "de" "ru" "zh"
 ltrg="en"		# English is always the 2nd language
 
 # encoder
@@ -136,8 +136,9 @@ for lsrc in ${langs[@]} ; do
   # Tokenize and embed train 
   bname="${bucc}.${lsrc}-${ltrg}"
   part="${bname}.train"
-  Embed ${edir}/${part} ${lsrc} ${encoder} ${bpe_codes}
-  Embed ${edir}/${part} ${ltrg} ${encoder} ${bpe_codes}
+  echo ${edir}/${part} ${lsrc} ${encoder} ${bpe_codes}
+  # Embed ${edir}/${part} ${lsrc} ${encoder} ${bpe_codes}
+  # Embed ${edir}/${part} ${ltrg} ${encoder} ${bpe_codes}
 
 #   # mine for texts in train
 #   Mine ${edir}/${part} ${lsrc} ${ltrg}
