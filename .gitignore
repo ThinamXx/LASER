@@ -10,3 +10,9 @@ tasks/xnli/XNLI-1.0*
 tasks/xnli/multinli_1.0*
 .??*swp
 .idea
+embed2
+*.log
+*.csv
+*.tsv
+bucc2018
+laser_encoders

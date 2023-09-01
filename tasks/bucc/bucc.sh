@@ -139,64 +139,64 @@ for lsrc in ${langs[@]} ; do
   Embed ${edir}/${part} ${lsrc} ${encoder} ${bpe_codes}
   Embed ${edir}/${part} ${ltrg} ${encoder} ${bpe_codes}
 
-  # mine for texts in train
-  Mine ${edir}/${part} ${lsrc} ${ltrg}
+#   # mine for texts in train
+#   Mine ${edir}/${part} ${lsrc} ${ltrg}
 
-  # optimize threshold on BUCC training data and provided gold alignments
-  if [ ! -s ${part}.log ] ; then
-    python3 bucc.py \
-      --src-lang ${lsrc} --trg-lang ${ltrg} \
-      --bucc-texts ${edir}/${part}.txt \
-      --bucc-ids ${edir}/${part}.id \
-      --candidates ${edir}/${part}.candidates.tsv \
-      --gold ${ddir}/${lsrc}-${ltrg}/${lsrc}-${ltrg}.training.gold \
-      --verbose \
-      | tee ${part}.log
-  fi
+#   # optimize threshold on BUCC training data and provided gold alignments
+#   if [ ! -s ${part}.log ] ; then
+#     python3 bucc.py \
+#       --src-lang ${lsrc} --trg-lang ${ltrg} \
+#       --bucc-texts ${edir}/${part}.txt \
+#       --bucc-ids ${edir}/${part}.id \
+#       --candidates ${edir}/${part}.candidates.tsv \
+#       --gold ${ddir}/${lsrc}-${ltrg}/${lsrc}-${ltrg}.training.gold \
+#       --verbose \
+#       | tee ${part}.log
+#   fi
 
-  # Tokenize and embed test 
-  part="${bname}.test"
-  Embed ${edir}/${part} ${lsrc} ${encoder} ${bpe_codes}
-  Embed ${edir}/${part} ${ltrg} ${encoder} ${bpe_codes}
+#   # Tokenize and embed test 
+#   part="${bname}.test"
+#   Embed ${edir}/${part} ${lsrc} ${encoder} ${bpe_codes}
+#   Embed ${edir}/${part} ${ltrg} ${encoder} ${bpe_codes}
 
-  # mine for texts in test
-  Mine ${edir}/${part} ${lsrc} ${ltrg}
+#   # mine for texts in test
+#   Mine ${edir}/${part} ${lsrc} ${ltrg}
 
-  # extract test bitexts for treshhold optimized on train
-  th=`grep 'best threshold' ${bname}.train.log | sed -e 's/[=:]/ /g' | awk '{print $4}'`
-  extracted="${edir}/${part}.extracted.tsv"
-  if [ ! -s ${extracted} ] ; then
-    python3 bucc.py \
-      --src-lang ${lsrc} --trg-lang ${ltrg} \
-      --bucc-texts ${edir}/${part}.txt \
-      --bucc-ids ${edir}/${part}.id \
-      --candidates ${edir}/${part}.candidates.tsv \
-      --threshold ${th} --output ${extracted} \
-      --verbose
-  fi
+#   # extract test bitexts for treshhold optimized on train
+#   th=`grep 'best threshold' ${bname}.train.log | sed -e 's/[=:]/ /g' | awk '{print $4}'`
+#   extracted="${edir}/${part}.extracted.tsv"
+#   if [ ! -s ${extracted} ] ; then
+#     python3 bucc.py \
+#       --src-lang ${lsrc} --trg-lang ${ltrg} \
+#       --bucc-texts ${edir}/${part}.txt \
+#       --bucc-ids ${edir}/${part}.id \
+#       --candidates ${edir}/${part}.candidates.tsv \
+#       --threshold ${th} --output ${extracted} \
+#       --verbose
+#   fi
 done
 
 # Bonus: extract bitexts with English alignments
 # using a (conservative) threshold of 1.1
 # All the data is supposed to be already tokenized
 
-th=1.1
-for lsrc in ${langs[@]} ; do
-  for ltrg in ${langs[@]} ; do
-    if [ ${lsrc} != 'en' -a ${ltrg} != "en" -a ${lsrc} != ${ltrg} ] ; then
-      bitext="${bucc}.${lsrc}-${ltrg}.train.extracted.th${th}.csv"
-      if [ ! -s ${bitext} ] ; then
-        echo "Extracting bitexts for ${lsrc}-${ltrg}"
-        python3 ${LASER}/source/mine_bitexts.py \
-          ${edir}/${bucc}.${lsrc}-en.train.txt.${lsrc} \
-          ${edir}/${bucc}.${ltrg}-en.train.txt.${ltrg} \
-          --src-lang ${lsrc} --trg-lang ${ltrg} \
-          --src-embeddings ${edir}/${bucc}.${lsrc}-en.train.enc.${lsrc} \
-          --trg-embeddings ${edir}/${bucc}.${ltrg}-en.train.enc.${ltrg} \
-          --unify --mode mine --retrieval max --margin ratio -k 4  \
-          --output ${bitext} --threshold ${th} \
-          --verbose --gpu
-      fi
-    fi
-  done
-done
+# th=1.1
+# for lsrc in ${langs[@]} ; do
+#   for ltrg in ${langs[@]} ; do
+#     if [ ${lsrc} != 'en' -a ${ltrg} != "en" -a ${lsrc} != ${ltrg} ] ; then
+#       bitext="${bucc}.${lsrc}-${ltrg}.train.extracted.th${th}.csv"
+#       if [ ! -s ${bitext} ] ; then
+#         echo "Extracting bitexts for ${lsrc}-${ltrg}"
+#         python3 ${LASER}/source/mine_bitexts.py \
+#           ${edir}/${bucc}.${lsrc}-en.train.txt.${lsrc} \
+#           ${edir}/${bucc}.${ltrg}-en.train.txt.${ltrg} \
+#           --src-lang ${lsrc} --trg-lang ${ltrg} \
+#           --src-embeddings ${edir}/${bucc}.${lsrc}-en.train.enc.${lsrc} \
+#           --trg-embeddings ${edir}/${bucc}.${ltrg}-en.train.enc.${ltrg} \
+#           --unify --mode mine --retrieval max --margin ratio -k 4  \
+#           --output ${bitext} --threshold ${th} \
+#           --verbose --gpu
+#       fi
+#     fi
+#   done
+# done

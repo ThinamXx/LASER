@@ -1,0 +1,58 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: embed",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": false, 
+            "args": [
+                "--input", "/root/nllb/LASER/tasks/embed/in_eng_latn.txt",
+                "--output", "/root/nllb/LASER/tasks/embed/out_eng_latn.bin",
+                "--encoder", "/root/nllb/LASER/laser_encoders/laser2.pt",
+                "--spm-model", "/root/nllb/LASER/laser_encoders/laser2.spm", 
+                "--verbose",
+                "--spm-lang", "en"
+            ]
+        },
+        {
+            "name": "Python: mine bitexts",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": false, 
+            "args": [
+                "/root/nllb/LASER/tasks/bucc/embed/bucc2018.de-en.train.txt.de", 
+                "/root/nllb/LASER/tasks/bucc/embed/bucc2018.de-en.train.txt.en",   
+                "--src-lang", "de", 
+                "--trg-lang", "en",
+                "--src-embeddings", "/root/nllb/LASER/tasks/bucc/embed/bucc2018.de-en.train.enc.de", 
+                "--trg-embeddings", "/root/nllb/LASER/tasks/bucc/embed/bucc2018.de-en.train.enc.en",
+                "--unify",
+                "--mode", "mine", 
+                "--retrieval", "max", "--margin", "ratio", "-k", "4",
+                "--output", "candidate.txt",
+                "--verbose", "--gpu"
+            ]
+        },
+        {
+            "name": "Python: embed bucc.sh",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": false, 
+            "args": [
+                "--input", "/root/nllb/LASER/tasks/embed/in_eng_latn.txt",
+                "--output", "/root/nllb/LASER/tasks/embed/out_eng_latn.bin",
+                "--encoder", "/root/nllb/LASER/laser_encoders/laser2.pt",
+                "--spm-model", "/root/nllb/LASER/laser_encoders/laser2.spm", 
+                "--verbose",
+                "--spm-lang", "en"
+            ]
+        }
+    ]
+}
