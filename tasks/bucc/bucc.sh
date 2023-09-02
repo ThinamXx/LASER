@@ -106,13 +106,14 @@ Mine () {
   l2=$3
   cand="${bn}.candidates.tsv"
   if [ ! -s ${cand} ] ; then
-    python3 ${LASER}/source/mine_bitexts.py \
-       ${bn}.txt.${l1} ${bn}.txt.${l2} \
-       --src-lang ${l1} --trg-lang ${l2} \
-       --src-embeddings ${bn}.enc.${l1} --trg-embeddings ${bn}.enc.${l2} \
-       --unify --mode mine --retrieval max --margin ratio -k 4  \
-       --output ${cand} \
-       --verbose --gpu
+    echo ${bn}.txt.${l1} ${bn}.txt.${l2}
+    # python3 ${LASER}/source/mine_bitexts.py \
+    #    ${bn}.txt.${l1} ${bn}.txt.${l2} \
+    #    --src-lang ${l1} --trg-lang ${l2} \
+    #    --src-embeddings ${bn}.enc.${l1} --trg-embeddings ${bn}.enc.${l2} \
+    #    --unify --mode mine --retrieval max --margin ratio -k 4  \
+    #    --output ${cand} \
+    #    --verbose --gpu
   fi
 }
 
@@ -136,12 +137,11 @@ for lsrc in ${langs[@]} ; do
   # Tokenize and embed train 
   bname="${bucc}.${lsrc}-${ltrg}"
   part="${bname}.train"
-  echo ${edir}/${part} ${lsrc} ${encoder} ${bpe_codes}
-  # Embed ${edir}/${part} ${lsrc} ${encoder} ${bpe_codes}
-  # Embed ${edir}/${part} ${ltrg} ${encoder} ${bpe_codes}
+  Embed ${edir}/${part} ${lsrc} ${encoder} ${bpe_codes}
+  Embed ${edir}/${part} ${ltrg} ${encoder} ${bpe_codes}
 
 #   # mine for texts in train
-#   Mine ${edir}/${part} ${lsrc} ${ltrg}
+  Mine ${edir}/${part} ${lsrc} ${ltrg}
 
 #   # optimize threshold on BUCC training data and provided gold alignments
 #   if [ ! -s ${part}.log ] ; then

@@ -25,12 +25,12 @@
             "console": "integratedTerminal",
             "justMyCode": false, 
             "args": [
-                "--input", "/root/nllb/LASER/tasks/embed/in_eng_latn.txt",
-                "--output", "/root/nllb/LASER/tasks/embed/out_eng_latn.bin",
-                "--encoder", "/root/nllb/LASER/laser_encoders/laser2.pt",
-                "--spm-model", "/root/nllb/LASER/laser_encoders/laser2.spm", 
+                "--input", "/root/nllb/LASER/tasks/bucc/embed/bucc2018.fr-en.train.txt_copy.en",
+                "--encoder", "/root/nllb/LASER/models/bilstm.93langs.2018-12-26.pt",
+                "--token-lang", "en",
+                "--bpe-codes", "/root/nllb/LASER/models/93langs.fcodes",
+                "--output", "/root/nllb/LASER/tasks/bucc/embed/copy_bucc2018.fr-en.train.enc.en",
                 "--verbose",
-                "--spm-lang", "en"
             ]
         },
         {
@@ -41,17 +41,14 @@
             "console": "integratedTerminal",
             "justMyCode": false, 
             "args": [
-                "/root/nllb/LASER/tasks/bucc/embed/bucc2018.de-en.train.txt.de", 
-                "/root/nllb/LASER/tasks/bucc/embed/bucc2018.de-en.train.txt.en",   
-                "--src-lang", "de", 
-                "--trg-lang", "en",
-                "--src-embeddings", "/root/nllb/LASER/tasks/bucc/embed/bucc2018.de-en.train.enc.de", 
-                "--trg-embeddings", "/root/nllb/LASER/tasks/bucc/embed/bucc2018.de-en.train.enc.en",
+                "/root/nllb/LASER/tasks/bucc/embed/bucc2018.de-en.train.txt.de", "/root/nllb/LASER/tasks/bucc/embed/bucc2018.de-en.train.txt.en",   
+                "--src-lang", "de", "--trg-lang", "en",
+                "--src-embeddings", "/root/nllb/LASER/tasks/bucc/embed/bucc2018.de-en.train.enc.de", "--trg-embeddings", "/root/nllb/LASER/tasks/bucc/embed/bucc2018.de-en.train.enc.en",
                 "--unify",
                 "--mode", "mine", 
                 "--retrieval", "max", "--margin", "ratio", "-k", "4",
-                "--output", "candidate.txt",
-                "--verbose", "--gpu"
+                "--output", "candidates.txt",
+                "--verbose",
             ]
         }
     ]
