@@ -1,6 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "Python: embed",
             "type": "python",
@@ -48,7 +49,34 @@
                 "--mode", "mine", 
                 "--retrieval", "max", "--margin", "ratio", "-k", "4",
                 "--output", "candidates.txt",
-                "--verbose",
+                "--verbose", "--gpu"
+            ]
+        }, 
+        {
+            "name": "Python: bucc.py",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": false, 
+            "args": [
+                "--src-lang", "de", "--trg-lang", "en",
+                "--bucc-texts", "/root/nllb/LASER/tasks/bucc/embed/bucc2018.de-en.train.txt",
+                "--bucc-ids", "/root/nllb/LASER/tasks/bucc/embed/bucc2018.de-en.train.id",
+                "--candidates", "/root/nllb/LASER/tasks/bucc/embed/bucc2018.de-en.train.candidates.txt",
+                "--gold", "/root/nllb/LASER/tasks/bucc/bucc2018/de-en/de-en.training.gold",
+                "--verbose"
+            ]
+        },
+        {
+            "name": "Python: cc matrix",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": false, 
+            "args": [
+                "dl", "-v", "v1.0.beta" 
             ]
         }
     ]

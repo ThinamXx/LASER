@@ -132,28 +132,29 @@ for d in ${ddir} ${edir} ; do
 done
 
 for lsrc in ${langs[@]} ; do
-  ExtractBUCC ${lsrc}
+  # ExtractBUCC ${lsrc}
 
-  # Tokenize and embed train 
+  # # Tokenize and embed train 
   bname="${bucc}.${lsrc}-${ltrg}"
   part="${bname}.train"
-  Embed ${edir}/${part} ${lsrc} ${encoder} ${bpe_codes}
-  Embed ${edir}/${part} ${ltrg} ${encoder} ${bpe_codes}
+  # Embed ${edir}/${part} ${lsrc} ${encoder} ${bpe_codes}
+  # Embed ${edir}/${part} ${ltrg} ${encoder} ${bpe_codes}
 
-#   # mine for texts in train
-  Mine ${edir}/${part} ${lsrc} ${ltrg}
+  # # mine for texts in train
+  # Mine ${edir}/${part} ${lsrc} ${ltrg}
 
-#   # optimize threshold on BUCC training data and provided gold alignments
-#   if [ ! -s ${part}.log ] ; then
-#     python3 bucc.py \
-#       --src-lang ${lsrc} --trg-lang ${ltrg} \
-#       --bucc-texts ${edir}/${part}.txt \
-#       --bucc-ids ${edir}/${part}.id \
-#       --candidates ${edir}/${part}.candidates.tsv \
-#       --gold ${ddir}/${lsrc}-${ltrg}/${lsrc}-${ltrg}.training.gold \
-#       --verbose \
-#       | tee ${part}.log
-#   fi
+  echo ${lsrc} ${ltrg} ${edir}/${part}.txt ${edir}/${part}.id ${edir}/${part}.candidates.tsv ${ddir}/${lsrc}-${ltrg}/${lsrc}-${ltrg}.training.gold
+  # optimize threshold on BUCC training data and provided gold alignments
+  if [ ! -s ${part}.log ] ; then
+    python3 bucc.py \
+      --src-lang ${lsrc} --trg-lang ${ltrg} \
+      --bucc-texts ${edir}/${part}.txt \
+      --bucc-ids ${edir}/${part}.id \
+      --candidates ${edir}/${part}.candidates.tsv \
+      --gold ${ddir}/${lsrc}-${ltrg}/${lsrc}-${ltrg}.training.gold \
+      --verbose \
+      | tee ${part}.log
+  fi
 
 #   # Tokenize and embed test 
 #   part="${bname}.test"
